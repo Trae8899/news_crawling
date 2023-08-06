@@ -1,3 +1,7 @@
+#JH Private
+NEWS_Source/
+api.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
