@@ -1,6 +1,8 @@
 #JH Private
 NEWS_Source/
 api.json
+telegram_msg.py
+.vscode/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
