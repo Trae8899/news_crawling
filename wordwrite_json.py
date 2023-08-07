@@ -1,6 +1,7 @@
 import json
 import docx
 import os
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 def add_hyperlink(paragraph, url, text, color, underline):
     """
@@ -47,9 +48,11 @@ def add_hyperlink(paragraph, url, text, color, underline):
 
     return hyperlink
 
-def Json2Word(fileRoute):
+def Json2Word_Titlelink(fileRoute):
     path=os.path.dirname(fileRoute)
-    name=fileRoute.split("\\")[-1].split(".")[0]
+    name, _ = os.path.splitext(os.path.basename(fileRoute))
+
+    
     # JSON 파일에서 데이터 로드
     with open(fileRoute, 'r', encoding='utf-8') as f:
         data = json.load(f)
@@ -60,21 +63,21 @@ def Json2Word(fileRoute):
 
     i=0
     for item in data:
-        if item['Link'] and item['Title_Kr'] and item['Summary_Kr']:
+        # if item['Link'] and item['Title_Kr'] and item['Summary_Kr']:
+        if item['Link'] and item['Title_Kr']:
             i += 1
             
             title1 = doc1.add_heading("",level=1)
-            text1 = doc1.add_paragraph("\n")
             text2 = doc1.add_paragraph(item['Summary_Kr'])
-            text3 = doc1.add_paragraph("\n")
-            text4 = doc1.add_paragraph()
+            text5 = doc1.add_paragraph("///")
+            text5.alignment=WD_ALIGN_PARAGRAPH.CENTER
             hyperlink = add_hyperlink(title1, item['Link'], str(i)+". "+item['Title_Kr'], None, True)
             
         else:
             continue
 
     # Word 문서 저장
-    doc1_name=path+r"\\"+name+".docx"
+    doc1_name = os.path.join(path, f"{name}.docx")
     try:
         doc1.save(doc1_name)
     except:
@@ -82,4 +85,44 @@ def Json2Word(fileRoute):
 
     return doc1_name
 
-a=Json2Word("C:\\Users\\qkrwo\\Documents\\NewsData\\News_230805.json")
+def Json2Word_addlink(fileRoute):
+    path=os.path.dirname(fileRoute)
+    name, _ = os.path.splitext(os.path.basename(fileRoute))
+    # JSON 파일에서 데이터 로드
+    with open(fileRoute, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    # Word 문서 생성
+    doc1 = docx.Document()
+    # 각 아이템에 대해 제목, 내용, 그리고 원문 링크를 포함하는 텍스트 상자를 추가
+
+    i=0
+    for item in data:
+        # if item['Link'] and item['Title_Kr'] and item['Summary_Kr']:
+        if item['Link'] and item['Title_Kr']:
+            i += 1
+            
+            title1 = doc1.add_heading(str(i)+". "+item['Title_Kr'],level=1)
+            text2 = doc1.add_paragraph(item['Summary_Kr'])
+            text4 = doc1.add_paragraph(item['Link'])
+            text5 = doc1.add_paragraph("///")
+            text5.alignment=WD_ALIGN_PARAGRAPH.CENTER
+            hyperlink = add_hyperlink(text4, item['Link'], item['Link'], None, True)
+            
+        else:
+            continue
+
+    # Word 문서 저장
+    doc1_name = os.path.join(path, f"{name}_link.docx")
+    try:
+        doc1.save(doc1_name)
+    except:
+        return
+
+    return doc1_name
+
+def read_word_document(file_path):
+    document = docx.Document(file_path)
+    content = '\n'.join([paragraph.text for paragraph in document.paragraphs])
+    return content
+

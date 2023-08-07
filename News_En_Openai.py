@@ -22,11 +22,11 @@ def News_Json():
         Iv_hot = Investing_POP()
         inv_no=0
         for investing in Iv_hot:
-            if inv_no==5:
+            if inv_no==6:
                 break
             inv_no += 1
             try:
-                gisa.append([investing[0],newspy.news(investing[0])])
+                gisa.append(investing[0])
             except:
                 continue
     except:
@@ -35,9 +35,13 @@ def News_Json():
     #Market Watch
     try:
         Mw_hot = Marketwatch_POP()
+        mw_no=0
         for marketW in Mw_hot:
+            if mw_no==6:
+                break
+            mw_no += 1
             try:
-                gisa.append([marketW[0],newspy.news(marketW[0])])
+                gisa.append(marketW[0])
             except:
                 continue
     except:
@@ -45,29 +49,37 @@ def News_Json():
     #CNBC
     try:
         cnbc_hot = CNBC_POP()
+        cnbc_no=0
         for cnbc in cnbc_hot:
+            if cnbc_no==6:
+                break
+            cnbc_no += 1
             try:
-                gisa.append([cnbc[0],newspy.news(cnbc[0])])
+                gisa.append(cnbc[0])
             except:
                 continue
     except:
         pass
     #Cnn
-    try:
-        cnn_hot = Cnn_pop()
-        for cnn in cnn_hot:
-            try:
-                gisa.append([cnn[0],newspy.news(cnn[0])])
-            except:
-                continue
-    except:
-        pass
+    # try:
+    #     cnn_hot = Cnn_pop()
+    #     cnn_no=0
+    #     for cnn in cnn_hot:
+    #         if cnn_no==6:
+    #             break
+    #         cnn_no += 1
+    #         try:
+    #             gisa.append(cnn[0])
+    #         except:
+    #             continue
+    # except:
+    #     pass
     #reuter
     try:
         reuters_hot = Reuters_pop()
         for reuter in reuters_hot:
             try:
-                gisa.append([reuter[0],newspy.news(reuter[0])])
+                gisa.append(reuter[0])
             except:
                 continue
     except:
@@ -89,16 +101,18 @@ def News_Json():
     for gisat in gisa:
         try:
             i=i+1
-            arlink = gisat[0]
-            artitle = gisat[1][0]
-            artext = gisat[1][1]
-            arsumy = do_summary.sumy_text(artext, 3)
+            arlink = gisat
+            artitle =newspy.news(arlink,"en")[0]
             aisum=AI_summary.Article2json(arlink)
             koartitle = aisum['Title_Kr']
             koarsumy = aisum['Summary_Kr']
+            hits=aisum['Views']
+            news.append({'Language':'En','Date': today, 'Link': arlink, 'Title': artitle, 'Title_Kr': koartitle, 'Summary_Kr': koarsumy,'Hits':hits})
         except Exception as e:
             print (e)
-        news.append({'Language':'En','No':i,'Date': today, 'Link': arlink, 'Title': artitle, 'Text': artext,
-                        'Summary': arsumy, 'Title_Kr': koartitle, 'Summary_Kr': koarsumy})
+            continue
+        news.sort(key=lambda x: x['Hits'], reverse=True)
+
+    
     return news
 

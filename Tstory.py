@@ -33,5 +33,8 @@ client_id={client_id}\
     else:
         print(res)
 
-# request_code()
-get_access_token()
+try:
+    get_access_token()
+except:
+    request_code()
+    

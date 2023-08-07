@@ -16,7 +16,7 @@ def News_Json():
         thebell=Thebell()
         for bell in thebell:
             try:
-                gisa.append([bell[0],newspy.news(bell[0],"ko")])
+                gisa.append(bell[0])
             except:
                 continue
     except:
@@ -26,15 +26,20 @@ def News_Json():
 
     i=0
     for gisat in gisa:
-        i=i+1
-        arlink = gisat[0]
-        artitle = gisat[1][0]
-        artext = gisat[1][1]
-        arsumy = artext
-        koartitle = artitle
-        koarsumy = arsumy
+        try:
+            i=i+1
+            arlink = gisat
+            artitle = newspy.news(arlink,"ko")[0]
+            artext = ""
+            arsumy = artext
+            koartitle = artitle
+            koarsumy = arsumy
+            hits=100-i
+            news.append({'Language':'Kr','Date': today, 'Link': arlink, 'Title': artitle, 'Title_Kr': koartitle, 'Summary_Kr': koarsumy,'Hits':hits})
+        except Exception as e:
+            print (e)
+            continue
+    news.sort(key=lambda x: x['Hits'], reverse=True)
 
-        news.append({'Language':'Kr','No':i,'Date': today, 'Link': arlink, 'Title': artitle, 'Text': artext,
-                        'Summary': arsumy, 'Title_Kr': koartitle, 'Summary_Kr': koarsumy})
 
     return news
