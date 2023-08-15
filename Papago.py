@@ -118,3 +118,24 @@ def papago_translate_headless(text, dest='ko'):
     finally:
         papago.close()
     return result
+
+def deepl_translate_headless(text, sta='auto',dest='ko'):
+    try:
+        text=str(text)
+        url = "https://www.deepl.com/translator#"+sta+"/"+dest+"/"+text[0:5]
+        deepl = set_chrome_driver()
+        deepl.get(url)
+        time.sleep(1)
+        element = deepl.find_element(By.XPATH, "//div[@contenteditable='true']")
+        deepl.find_element(By.c, 'txtSource').send_keys(text)
+        deepl.find_element(By.ID, 'btnTranslate').click()
+        time.sleep(2)
+        deepl_translated = deepl.find_element(By.ID, 'targetEditArea')
+        result = deepl_translated.text
+    except Exception as e: # 예외처리 (요소를 찾지 못하는 경우)
+        result = e
+    finally:
+        deepl.close()
+    return result
+
+# deepl_translate_headless("hi hello java")

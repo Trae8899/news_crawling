@@ -1,5 +1,4 @@
 import newspy
-import json
 
 # 임포트한 CNBC와 WSJ 라이브러리에서 CNBC_POP 및 WSJ_popular 함수를 구현합니다.
 from NEWS_Source.CNBC import CNBC_POP
@@ -8,7 +7,6 @@ from NEWS_Source.cnnfinance import Cnn_pop
 from NEWS_Source.reuters import Reuters_pop
 from NEWS_Source.marketwatch import Marketwatch_POP
 from NEWS_Source.investing import Investing_POP
-import do_summary
 from datetime import datetime
 import AI_summary
 

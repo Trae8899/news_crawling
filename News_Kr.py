@@ -1,5 +1,4 @@
 import newspy
-import json
 
 # 임포트한 CNBC와 WSJ 라이브러리에서 CNBC_POP 및 WSJ_popular 함수를 구현합니다.
 from NEWS_Source.Thebell import Thebell
