@@ -1,7 +1,6 @@
 import json
 import docx
 import os
-from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 def add_hyperlink(paragraph, url, text, color, underline):
     """
@@ -29,15 +28,15 @@ def add_hyperlink(paragraph, url, text, color, underline):
 
     # Add color if it is given
     if not color is None:
-      c = docx.oxml.shared.OxmlElement('w:color')
-      c.set(docx.oxml.shared.qn('w:val'), color)
-      rPr.append(c)
+        c = docx.oxml.shared.OxmlElement('w:color')
+        c.set(docx.oxml.shared.qn('w:val'), color)
+        rPr.append(c)
 
     # Remove underlining if it is requested
     if not underline:
-      u = docx.oxml.shared.OxmlElement('w:u')
-      u.set(docx.oxml.shared.qn('w:val'), 'none')
-      rPr.append(u)
+        u = docx.oxml.shared.OxmlElement('w:u')
+        u.set(docx.oxml.shared.qn('w:val'), 'none')
+        rPr.append(u)
 
     # Join all the xml elements together add add the required text to the w:r element
     new_run.append(rPr)
@@ -70,7 +69,6 @@ def Json2Word_Titlelink(fileRoute):
             title1 = doc1.add_heading("",level=1)
             text2 = doc1.add_paragraph(item['Summary_Kr'])
             text5 = doc1.add_paragraph("///")
-            text5.alignment=WD_ALIGN_PARAGRAPH.CENTER
             hyperlink = add_hyperlink(title1, item['Link'], str(i)+". "+item['Title_Kr'], None, True)
             
         else:
@@ -106,7 +104,6 @@ def Json2Word_addlink(fileRoute):
             text2 = doc1.add_paragraph(item['Summary_Kr'])
             text4 = doc1.add_paragraph(item['Link'])
             text5 = doc1.add_paragraph("///")
-            text5.alignment=WD_ALIGN_PARAGRAPH.CENTER
             hyperlink = add_hyperlink(text4, item['Link'], item['Link'], None, True)
             
         else:

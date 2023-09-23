@@ -36,4 +36,4 @@ doc.Close()
 word.Quit()
 
 telegram_msg.word2msg(wordlinkpath,split_no=20)
-# telegram_msg.file2msg(outputFile)
+telegram_msg.file2msg(outputFile)

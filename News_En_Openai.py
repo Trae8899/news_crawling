@@ -16,19 +16,19 @@ def News_Json():
     gisa = []
     #Investing
     
-    try:
-        Iv_hot = Investing_POP()
-        inv_no=0
-        for investing in Iv_hot:
-            if inv_no==6:
-                break
-            inv_no += 1
-            try:
-                gisa.append(investing[0])
-            except:
-                continue
-    except:
-        pass
+    # try:
+    #     Iv_hot = Investing_POP()
+    #     inv_no=0
+    #     for investing in Iv_hot:
+    #         if inv_no==6:
+    #             break
+    #         inv_no += 1
+    #         try:
+    #             gisa.append(investing[0])
+    #         except:
+    #             continue
+    # except:
+    #     pass
 
     #Market Watch
     try:
